@@ -14,7 +14,7 @@ mongoose.connect('mongodb://localhost/pcat-test-db', {
 app.set("view engine", "ejs");
 //MIDDLEWARES
 app.use(express.static("public"));
-
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.get('/', async (req, res) => {
   const photos = await Photo.find({})
@@ -28,9 +28,9 @@ app.get("/about", (req, res) => {
 app.get("/add", (req, res) => {
   res.render("add");
 });
-app.post('/photos', async (req, res) => {
-  await Photo.create(req.body);
-  res.redirect('/')  
+app.post('/photos', async (req, res) => { // async - await yapısı kullanacğız.
+  await Photo.create(req.body)            // body bilgisini Photo modeli sayesinde veritabanında dökümana dönüştürüyoruz.
+  res.redirect('/')
 });
 const port = 3000;
 
